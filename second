@@ -1,1 +1,94 @@
 
+일자 : 22.12.12 ~ 12.16
+과정 : SoEn, C문법 5장 ~ 9장
+
+<이론 test>
+
+없슴! (코딩테스트가 많아서)
+
+<coading test>
+
+1 random 함수를 이용하여, 로또번호 6개를 출력하시오. (정렬 필수)
+
+2 소수점 형태의 문자열을 입력받아, 소수점을 중심으로 두 문자열로 나누고, 각각 숫자로 변환 후 출력하시오.
+  printf("%d")로 출력하시오.
+  예) 2345.1234
+      => 정수 : 2345
+      => 소수점 : 1234
+
+3 문자열을 입력받아, 문자열이 숫자인지 아닌지 판별하고, 숫자이면 숫자 변수로 바꾸어 저장 후 출력하시오.
+  printf("%d")로 출력하시오.
+  예) alsieihr@%jS334
+      => String
+     123434
+      => Number : 123434
+
+4 10진수 숫자를 입력받아, 배열을 이용하여 2진수/8진수/16진수로 변환하여 출력하시오.
+  예) 28 입력 시,
+     2진수 : 0001 1100
+     8진수 : 34
+     10진수 : 28
+     16진수 :1C
+  * printf의 변환기능을 사용하지 마시오.
+
+5 임의의 10x10 배열을 만들고, 안에 0~255 값을 random하게 넣으시오.
+  이 2차원 배열에 대한 Histogram 값을 화면에 출력하시오.
+  예) [0] : 1
+     [1] : 3
+     [2] : 7
+        ...
+     [255] : 10
+
+6 String 함수들의 기능을 배열을 이용하여 직접 구현하시오. (12장 함수들 사용X)
+  - 구현 필요 함수
+    > char StrAt(char*, int) : String 내 특정 위치에 대한 문자를 리턴 
+      예) str = "abcde" 일때, StrAt(str, 2) > 'c' 리턴
+    > void StrInsert(char*, char, int)
+      예) str = "abcde" 일때, StrInsert(str, 'f', 2) > str이 "abfcde"로 바뀜
+    > void StrRemove(char*, int) : 문자열 내에서 인자로 받은 index 위치의 문자를 제거
+      void StrRemove(char*, char) : 문자열 내에서 인자로 받은 character를 제거
+      void StrRemove(char*, int, int) : 문자열 내에서 입력받은 start id ~ end id까지 모두제거
+      예) str = "abcde" 일때, StrRemove(str, 2) > str이 "abde"로 바뀜
+      예) str = "abcde" 일때, StrRemove(str, 'd') > str이 "abce"로 바뀜
+      예) str = "abcde" 일때, StrRemove(str, 1, 3) > str이 "ae"로 바뀜
+    > char* StrConnect(char*, char*) : 두 문자열을 하나로 붙임
+      예) str1 = "ab", str2 = "cd" 일때, StrConnect(str1, str2) > "abcd" 리턴
+    > int StrCompare(char*, char*) : 두 문자열이 같은지 다른지 비교, 같으면 0, 다르면 1 리턴
+      예) str1 = "ab", str2 = "cd" 일때, StrCompare(str1, str2) > 1 리턴
+      * 길이 체크 및 각 character 비교
+    > int StrFind(char*, char) : 문자열 내에서 character를 찾으면 해당 index를, 없으면 -1 리턴
+      예) str = "abcde" 일때, StrFind(str, 'd') > 3 리턴
+  - 인자 및 리턴값, 함수명 등은 본인이 생각하여 작성하시오.
+  - 모든 상황에 예외처리를 적용하시오 (가령, 배열 index 접근 오류 등)
+  - 포인터를 사용하면 더욱 좋음 (아직 과정 전이지만)
+  - 참고 : CString, std::string 등 검색
+          검색해보고, 또 다른 함수들을 구현해 보아도 좋음
+
+7 연속적으로 키 입력을 받고, 화살표 키가 입력되는지 체크하시오. (ASCII)
+  각 화살표 형태마다, 화면 안에서 움직이는 물체를 시각적으로 표시하시오.
+  화면 크기는 임의로(define, 가로세로동일) 설정하고, 끝에 도달하면 움직일 수 없도록 예외처리를 하시오.
+  - 루프 회전을 무한으로 하기 위해, for 혹은 while 무한루프 조건 설정
+  - 키 입력 시 화면을 매번 지워야 하는데, clrcls() 함수가 없으므로 system("cls") 사용
+  - 한글자를 입력받아 바로 처리하기 위해, _getch() 사용 (conio.h include)
+  - 키 입력 시, 2회 입력이 자동 실행되는데 첫 번째 값은 쓰레기값이 입력되므로 무시함 (switch-case의 default로)
+    > 디버그모드로 실행해서 입력값을 확인해 보면서 진행!
+  - loop 반복하며 키 입력 시 마다, _kbhit() 함수로 키입력을 체크하여 True일 때만 진행 (conio.h include)
+  - 탈출을 위해, q를 입력하면 프로그램을 종료하도록 하시오. ('q'는 ASCII 113임)
+  - 학습 내용 중, 4.4 나 파트 내용 참고
+
+  예)
+******************************************
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                  @                     *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+******************************************
