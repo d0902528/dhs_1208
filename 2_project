@@ -1,0 +1,559 @@
+일자 : 22.12.12 ~ 12.16
+과정 : SoEn, C문법 5장 ~ 9장
+
+<이론 test>
+
+없슴! (코딩테스트가 많아서)
+
+<coading test>
+
+toboc.h 헤더파일)
+
+
+#ifndef TURBOC_HEADER 
+
+#define TURBOC_HEADER
+
+
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> 
+#include <conio.h>
+#include <time.h>
+#include <windows.h>
+#include <math.h>
+#include <ctype.h>
+#include <process.h> 
+
+void gotoxy(int x, int y);
+
+
+#define clrscr() system("cls")
+
+#define delay(n) Sleep(n)                             
+
+#define randomize() srand((unsigned)time(NULL))       
+
+#define random(n) (rand() % (n))                       
+
+
+
+#ifndef TURBOC_PROTOTYPE_ONLY
+
+
+
+
+
+void gotoxy(int x, int y)
+{
+
+	COORD Cur;
+
+	Cur.X = x;
+
+	Cur.Y = y;
+
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Cur);
+
+}
+
+#endif 
+
+#endif 
+==============================================================코딩테스트 
+1 random 함수를 이용하여, 로또번호 6개를 출력하시오. (정렬 필수)
+code)
+#include "toboc.h"
+void Sort(int n);
+int Lotto[10];
+int main(void) {
+	int i;
+	srand(time(NULL));
+	for (i= 0; i < 6; i++) {
+		Lotto[i] = rand() % 100+1;
+	}
+	Sort(6);
+	return 0;
+}
+void Sort(int n) {
+	int temp = 0;
+
+	for (int i = 0; i < n; i++) {
+		for (int j = i+1; j < n; j++) {
+			if (Lotto[i] < Lotto[j]) {
+				temp = Lotto[i];
+				Lotto[i] = Lotto[j];
+				Lotto[j] = temp;
+			}
+		}
+	}
+	printf("로또 번호 : ");
+	for (int i = 0; i < n; i++) printf("%3d", Lotto[i]);
+	printf("\n");
+}
+2 소수점 형태의 문자열을 입력받아, 소수점을 중심으로 두 문자열로 나누고, 각각 숫자로 변환 후 출력하시오.
+  printf("%d")로 출력하시오.
+  예) 2345.1234
+      => 정수 : 2345
+      => 소수점 : 1234
+
+code)
+#include "toboc.h"
+int main(void) {
+
+	char str[100];
+	double num1 = 0;
+	double num2 = 0;
+	printf("문자 입력 : ");
+	gets_s(str);
+	num1 = atof(str);
+	num2 = (num1 - (int)num1) * 1000000; 
+	printf("정수 : %d\n", atoi(str));
+	printf("실수 : %.lf\n", num2);
+
+	return 0;
+}
+3 문자열을 입력받아, 문자열이 숫자인지 아닌지 판별하고, 숫자이면 숫자 변수로 바꾸어 저장 후 출력하시오.
+  printf("%d")로 출력하시오.
+  예) alsieihr@%jS334
+      => String
+     123434
+      => Number : 123434
+code)
+#include "toboc.h"
+int main(void) {
+
+	char str[100];
+	int num = 0;
+	printf("입력하시오 : ");
+	gets_s(str);
+
+	if ((str[0]>=65 && str[0]<=90) || (str[0]>=97 && str[0] <= 122)) {
+		printf("String \n");
+	}	
+	else {
+		printf("number = %d", atoi(str));
+	}
+	return 0;
+}
+4 10진수 숫자를 입력받아, 배열을 이용하여 2진수/8진수/16진수로 변환하여 출력하시오.
+  예) 28 입력 시,
+     2진수 : 0001 1100
+     8진수 : 34
+     10진수 : 28
+     16진수 :1C
+  * printf의 변환기능을 사용하지 마시오.
+
+code)
+#include "toboc.h"
+const static char num[16]
+={ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+void change(int number, int su)
+{
+	int temp = number;
+	if (number <= 0) {
+		return;
+	}
+	temp /= su;
+	change(temp, su);
+
+	printf("%c", num[number % su]);
+}
+int main(void)
+{
+	int number;
+	printf("10진수 정수 입력: ");
+	scanf_s("%d", &number);
+
+	printf("\n2진수: ");
+	change(number, 2);
+
+	printf("\n8진수: ");
+	change(number, 8);
+
+	printf("\n16진수: ");
+	change(number, 16);
+
+	return 0;
+}
+5 임의의 10x10 배열을 만들고, 안에 0~255 값을 random하게 넣으시오.
+  이 2차원 배열에 대한 Histogram 값을 화면에 출력하시오.
+  예) [0] : 1
+     [1] : 3
+     [2] : 7
+        ...
+     [255] : 10
+code)
+#include "toboc.h"
+
+#define MAX		255
+int random[10][10];
+int main(void) {
+
+	int i = 0, j = 0, k = 0;
+	unsigned int cnt[1000];
+	srand((unsigned)time(NULL));
+	for (i = 0; i < MAX + 1; i++)cnt[i] = 0;
+	for (i = 0; i < 10; i++) {
+		for (j = 0; j < 10; j++) {
+			random[i][j] = rand() % MAX+1;
+		}
+	}
+	for (i = 0; i < MAX + 1; i++){
+		for (j = 0; j < 10; j++) {
+			for (k = 0; k < 10; k++) {
+				if (random[j][k] == i) cnt[i]++;
+			}
+		}
+	}
+	for (i = 0; i < MAX+1; i++) printf("[%d] : %d\n", i,cnt[i]);
+	return 0; 
+}
+6 String 함수들의 기능을 배열을 이용하여 직접 구현하시오. (12장 함수들 사용X)
+  - 구현 필요 함수
+    > char StrAt(char*, int) : String 내 특정 위치에 대한 문자를 리턴 0
+      예) str = "abcde" 일때, StrAt(str, 2) > 'c' 리턴
+    > void StrInsert(char*, char, int)
+      예) str = "abcde" 일때, StrInsert(str, 'f', 2) > str이 "abfcde"로 바뀜
+    > void StrRemove(char*, int) : 문자열 내에서 인자로 받은 index 위치의 문자를 제거
+      void StrRemove(char*, char) : 문자열 내에서 인자로 받은 character를 제거
+      void StrRemove(char*, int, int) : 문자열 내에서 입력받은 start id ~ end id까지 모두제거
+      예) str = "abcde" 일때, StrRemove(str, 2) > str이 "abde"로 바뀜
+      예) str = "abcde" 일때, StrRemove(str, 'd') > str이 "abce"로 바뀜
+      예) str = "abcde" 일때, StrRemove(str, 1, 3) > str이 "ae"로 바뀜
+    > char* StrConnect(char*, char*) : 두 문자열을 하나로 붙임
+      예) str1 = "ab", str2 = "cd" 일때, StrConnect(str1, str2) > "abcd" 리턴
+    > int StrCompare(char*, char*) : 두 문자열이 같은지 다른지 비교, 같으면 0, 다르면 1 리턴0
+      예) str1 = "ab", str2 = "cd" 일때, StrCompare(str1, str2) > 1 리턴
+      * 길이 체크 및 각 character 비교
+    > int StrFind(char*, char) : 문자열 내에서 character를 찾으면 해당 index를, 없으면 -1 리턴
+      예) str = "abcde" 일때, StrFind(str, 'd') > 3 리턴
+  - 인자 및 리턴값, 함수명 등은 본인이 생각하여 작성하시오.
+  - 모든 상황에 예외처리를 적용하시오 (가령, 배열 index 접근 오류 등)
+  - 포인터를 사용하면 더욱 좋음 (아직 과정 전이지만)
+  - 참고 : CString, std::string 등 검색
+          검색해보고, 또 다른 함수들을 구현해 보아도 좋음
+code) 
+
+#include "toboc.h"
+int StrLength(char *str); // 문자 길이 구하는 함수 
+void StrAt(char*str, int n);
+void StrInsert(char* str1, char str2, int n, int length);
+void StrRemove(char*str, int n, int len);
+void StrConnect(char *str1, char *str2);
+void StrCompare(char*str1, char*str2);
+void StrFind(char *str1, char str2, int len);
+
+int main(void) {
+
+	char AT[100], insert[100], remove[100], connect1[100], connect2[100], compare1[100], compare2[100], find[100];
+	int Length[5] = { 0, };
+	
+	printf("AT : ");
+	gets_s(AT);
+
+	printf("insert : ");
+	gets_s(insert);
+
+	printf("remove : ");
+	gets_s(remove);
+
+	printf("connect1 : ");
+	gets_s(connect1);
+
+	printf("connect2 : ");
+	gets_s(connect2);
+
+	printf("compare1 : ");
+	gets_s(compare1);
+
+	printf("compare2 : ");
+	gets_s(compare2);
+
+	printf("find : ");
+	gets_s(find);
+	
+	printf("\n");
+	Length[1] = StrLength(insert);
+	Length[2] = StrLength(remove);
+	Length[3] = StrLength(find);
+
+	StrAt(AT, 2);
+	StrInsert(insert, 'f', 2, Length[1]);
+	StrRemove(remove, 'd', Length[2]);
+	StrConnect(connect1, connect2);
+	StrCompare(compare1, compare2);
+	StrFind(find, 'd',Length[3]);
+	
+	
+	return 0;
+}
+int StrLength(char *str) { // 00 문자 길이
+	int cnt = 0;
+	while (str[cnt]!= '\0') {
+		cnt++;
+	}
+
+	return cnt;
+}
+void StrAt(char*str, int n) {
+	//00 str = "abcde" 일때, StrAt(str, 2) > 'c' 리턴 (위치 리턴)
+	
+	printf("str at: %c\n", str[n]);
+}
+void StrInsert(char *str1, char str2, int n, int length) {
+	//str = "abcde" 일때, StrInsert(str, 'f', 2) > str이 "abfcde"로 바뀜(문자 추가)
+	int i;
+	for (i = length; i > 0; i--) str1[i + 1] = str1[i];
+	str1[n] = str2;
+	printf("strinsert : %s\n", str1);
+
+}
+void StrRemove(char *str, int n, int len){
+	// str = "abcde" 일때, StrRemove(str, 2) > str이 "abde"로 바뀜(문자 지우기)
+	int i;
+	str[n] = ' ';
+	for (i = n; i<len; i++) str[i] = str[i+1];
+	printf("strremove : %s\n", str);
+	
+}
+void StrConnect(char *str1, char *str2) 
+{//  00 str1 = "ab", str2 = "cd" 일때, StrConnect(str1, str2) > "abcd" 리턴(문자 연결) 
+	char *a = str1;
+	char *b = str2;
+	while (*a) {
+		a++;
+	}
+	while (*b) {
+		*a = *b;
+		b++;
+		a++;
+	}
+	*a = '\0';
+	printf("strconnect : %s\n", str1);
+
+}
+void StrCompare(char *str1, char *str2) { // 00str1 = "ab", str2 = "cd" 일때, StrCompare(str1, str2) > 1 리턴(문자 비교)
+	int n = 0;
+	while (*str1 != '\0' || *str2 != 0)
+	{
+		if (*str1 == * str2)
+		{
+			n= 0; 
+			break;
+		}
+
+		if (*str1 != *str2)
+		{
+			n = 1;
+			break;
+		}
+		str1++;
+		str2++;
+	}
+	printf("strcompare : %d\n", n);
+}
+void StrFind(char *str1, char str2, int len) {// 00 str = "abcde" 일때, StrFind(str,- 'd') > 3 리턴(문자 자리 찾기)
+	int num = 0;
+	while (len) {
+		if (*str1 == str2) break;
+		num++;
+		len--;
+		*str1++;
+		
+	}
+	if (len == 0) num = -1; 
+	printf("strfind : %d\n", num);
+}
+7 연속적으로 키 입력을 받고, 화살표 키가 입력되는지 체크하시오. (ASCII)
+  각 화살표 형태마다, 화면 안에서 움직이는 물체를 시각적으로 표시하시오.
+  화면 크기는 임의로(define, 가로세로동일) 설정하고, 끝에 도달하면 움직일 수 없도록 예외처리를 하시오.
+  - 루프 회전을 무한으로 하기 위해, for 혹은 while 무한루프 조건 설정
+  - 키 입력 시 화면을 매번 지워야 하는데, clrcls() 함수가 없으므로 system("cls") 사용
+  - 한글자를 입력받아 바로 처리하기 위해, _getch() 사용 (conio.h include)
+  - 키 입력 시, 2회 입력이 자동 실행되는데 첫 번째 값은 쓰레기값이 입력되므로 무시함 (switch-case의 default로)
+    > 디버그모드로 실행해서 입력값을 확인해 보면서 진행!
+  - loop 반복하며 키 입력 시 마다, _kbhit() 함수로 키입력을 체크하여 True일 때만 진행 (conio.h include)
+  - 탈출을 위해, q를 입력하면 프로그램을 종료하도록 하시오. ('q'는 ASCII 113임)
+  - 학습 내용 중, 4.4 나 파트 내용 참고
+
+  예)
+******************************************
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                  @                     *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+*                                        *
+******************************************
+
+code)
+#include "toboc.h"
+
+#define ESC 27
+#define LEFT    75
+#define RIGHT   77
+#define UP      72
+#define DOWN    80
+
+#define F	66
+#define Hori 30 
+#define Vert 15
+
+#define putchxy(x,y,c)  {gotoxy(x,y); _putch(c);}
+void print(void);
+void END(void);
+int Stage[Vert][Hori] =
+{
+	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,F,1 },
+	{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+};
+int main(void)
+{
+
+	int x = 1, y = 1;
+	int key = 0;
+	int CLX = x;  
+	int CLY = y;  
+	system("cls");
+	
+	print();
+
+	while (1) {
+		if(_kbhit()) {
+			CLX = x;
+			CLY = y;
+			//Stage[x][y] = 0;
+			system("cls");
+			print();
+
+			gotoxy(x, y);
+
+			_putch('@');
+			key = _getch();
+
+
+			if (key == 0xE0 || key == 0) {
+
+				key = _getch();
+
+				switch (key)
+				{
+				case LEFT:
+					
+					x -= 1;
+
+					break;
+
+				case RIGHT:
+
+					x += 1;
+					break;
+
+				case UP:
+
+					y -= 1;
+					break;
+
+				case DOWN:
+
+					y += 1;
+					break;
+
+				}
+				if ((y == 0) || (y==14) || (x==0) || (x==29))
+				{
+					x = CLX; 
+					y = CLY; 
+				}
+				if (x == 28 && y == 13) {
+					system("cls");
+					gotoxy(20, 20);
+					END();
+					exit(0);
+				}
+				gotoxy(x, y);
+
+				gotoxy(20, 20);
+				printf("현재 x값 : %d\t", x);
+				printf("현재 y값 : %d\n", y);
+
+			}
+		}
+		else {
+
+			switch (key) {
+
+			case ESC:
+
+				system("cls");
+				break;
+
+			case 81: // Q
+			case 113: // q 
+
+				exit(0);
+
+			}
+		}
+	}
+	return 0;
+}
+
+void print(void) {
+	int i, j;
+	system("cls");
+	for (i = 0; i < Vert; i++) {
+		for (j = 0; j < Hori; j++) {
+			if (Stage[i][j] == 1) printf("*");
+			else if(Stage[i][j] == 66)printf("F");
+			else printf(" ");
+		}
+		printf("\n");
+	}
+}
+void END(void) {
+	int i;
+
+	for (i = 0; i <=50; i++) {
+		putchxy(i, 5, '-');
+		delay(10);
+	}
+	for (i = 50; i >= 0; i--) {
+		putchxy(i, 10, '-');
+		delay(10);
+	}
+	delay(500);
+	gotoxy(20, 7);
+	printf("E");
+
+	delay(500);
+	gotoxy(22, 7);
+	printf("N");
+
+	delay(500);
+	gotoxy(24, 7);
+	printf("D\n");
+}
